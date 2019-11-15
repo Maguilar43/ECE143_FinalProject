@@ -4,4 +4,4 @@
 - Matthew Aguilar
 - Hao Zhu
 - Jiajun Du
-- Kasidech T.
+- Kasidech Tantipanichaphan
