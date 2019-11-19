@@ -1,4 +1,4 @@
-year,quarter,parking_spaces,8am,9am,10am,11am,12am,1pm,2pm,3pm,4pm,5pm,peak_empty_spaces,peak_occupied_spaces,%_occupied
+year,quarter,parking_spaces,8am,9am,10am,11am,12pm,1pm,2pm,3pm,4pm,5pm,peak_empty_spaces,peak_occupied_spaces,%_occupied
 2011/12,Summer,7.0,5.0,4.0,3.0,3.0,4.0,4.0,4.0,4.0,4.0,5.0,3.0,4.0,0.57
 2011/12,Fall,7.0,5.0,4.0,3.0,3.0,4.0,4.0,4.0,4.0,4.0,5.0,3.0,4.0,0.57
 2011/12,Winter,7.0,5.0,4.0,3.0,3.0,4.0,4.0,4.0,4.0,4.0,5.0,3.0,4.0,0.57

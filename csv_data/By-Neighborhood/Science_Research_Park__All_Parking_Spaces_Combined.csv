@@ -1,4 +1,4 @@
-year,quarter,parking_spaces,8am,9am,10am,11am,12am,1pm,2pm,3pm,4pm,5pm,peak_empty_spaces,peak_occupied_spaces,%_occupied
+year,quarter,parking_spaces,8am,9am,10am,11am,12pm,1pm,2pm,3pm,4pm,5pm,peak_empty_spaces,peak_occupied_spaces,%_occupied
 2004/05,390,264,261,262,262,262,262,263,304,321,322,261,129,0.33
 2004/05,390,297,296,296,295,294,295,297,324,332,332,294,96,0.25
 2004/05,390,297,296,296,295,294,295,297,324,332,332,294,96,0.25

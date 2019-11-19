@@ -1,4 +1,4 @@
-year,quarter,parking_spaces,8am,9am,10am,11am,12am,1pm,2pm,3pm,4pm,5pm,peak_empty_spaces,peak_occupied_spaces,%_occupied
+year,quarter,parking_spaces,8am,9am,10am,11am,12pm,1pm,2pm,3pm,4pm,5pm,peak_empty_spaces,peak_occupied_spaces,%_occupied
 2001/02,8,8,8,7,6,7,6,6,6,6,6,6,2,0.25
 2001/02,8,7,6,7,6,6,6,5,6,6,7,5,3,0.38
 2001/02,8,8,8,7,7,8,8,8,8,8,8,7,1,0.13

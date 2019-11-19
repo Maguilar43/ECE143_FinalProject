@@ -53,7 +53,7 @@ def create_csv(sheet, prefix, prev_path):
 		# print(path + "--------------------------------")
 	with open(path, 'a', newline='') as f:
 		csv_write = csv.writer(f)
-		csv_head = ["year", "quarter", "parking_spaces", "8am", "9am", "10am", "11am", "12am", "1pm", "2pm", "3pm",
+		csv_head = ["year", "quarter", "parking_spaces", "8am", "9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm",
 					"4pm", "5pm", "peak_empty_spaces", "peak_occupied_spaces", "%_occupied"]
 		if not append_csv_flag:
 			csv_write.writerow(csv_head)

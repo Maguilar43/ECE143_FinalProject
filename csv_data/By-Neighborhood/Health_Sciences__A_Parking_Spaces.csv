@@ -1,4 +1,4 @@
-year,quarter,parking_spaces,8am,9am,10am,11am,12am,1pm,2pm,3pm,4pm,5pm,peak_empty_spaces,peak_occupied_spaces,%_occupied
+year,quarter,parking_spaces,8am,9am,10am,11am,12pm,1pm,2pm,3pm,4pm,5pm,peak_empty_spaces,peak_occupied_spaces,%_occupied
 2000/01,Summer,111.0,54.0,34.0,31.0,29.0,30.0,33.0,32.0,35.0,38.0,53.0,29.0,82.0,0.74
 2000/01,Fall,111,49,33,25,21,24,31,25,29,37,53,21,90,0.81
 2000/01,Winter,111,50,33,25,22,23,22,25,28,33,44,22,89,0.8

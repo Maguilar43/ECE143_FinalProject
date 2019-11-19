@@ -1,4 +1,4 @@
-year,quarter,parking_spaces,8am,9am,10am,11am,12am,1pm,2pm,3pm,4pm,5pm,peak_empty_spaces,peak_occupied_spaces,%_occupied
+year,quarter,parking_spaces,8am,9am,10am,11am,12pm,1pm,2pm,3pm,4pm,5pm,peak_empty_spaces,peak_occupied_spaces,%_occupied
 2008/09,93,56,34,17,5,15,18,8,9,22,32,5,88,0.95
 2008/09,93,56,30,9,5,9,10,4,5,19,33,4,89,0.96
 2008/09,93,69,44,15,6,13,19,11,13,29,43,6,87,0.94
