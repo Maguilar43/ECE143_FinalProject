@@ -20,7 +20,6 @@ def xcel_to_df(file):
     read from 2019 data and bring it into a dataframe, format if needed
     '''
     assert isinstance(file, str)
-    assert file.startswith('excel_data/')
     assert file.endswith('.xlsx')
     
     df = pd.read_excel(file)
