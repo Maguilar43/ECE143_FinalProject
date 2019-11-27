@@ -2,7 +2,7 @@ import pandas as pd
 import itertools as it
 
 def main():
-    df = pd.read_excel('excel_data/Sp19_wk1_B.xlsx')
+    df = pd.read_excel('excel_data/Sp19_wk2_B.xlsx')
 
     days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
     times= ['8', '10', '12', '2']
@@ -11,8 +11,30 @@ def main():
 
     if needs_formatting(df):
         df = reformat_columns(df, col_names, start=3, end=7)
+        print('Fixed formatting')
 
     print(df)
+
+def xcel_to_df(file):
+    '''
+    read from 2019 data and bring it into a dataframe, format if needed
+    '''
+    assert isinstance(file, str)
+    assert file.startswith('excel_data/')
+    assert file.endswith('.xlsx')
+    
+    df = pd.read_excel(file)
+
+    days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
+    times= ['8', '10', '12', '2']
+
+    col_names = combine_lists(days, times)
+
+    if needs_formatting(df):
+        df = reformat_columns(df, col_names, start=3, end=7)
+    
+    return df 
+
 
 def combine_lists(L1, L2, sep='-'):
     '''
@@ -39,7 +61,7 @@ def combine_lists(L1, L2, sep='-'):
     assert isinstance(sep, str)
 
     
-    return [ comb[0] + '-' + comb[1] for comb in it.product(L1, L2) ] 
+    return [ comb[0] + sep + comb[1] for comb in it.product(L1, L2) ] 
 
 def needs_formatting(df): 
     try: 
@@ -66,6 +88,8 @@ def reformat_columns(df, labels, start=0, end=-1):
     assert isinstance(start, int)
     assert isinstance(end, int)
     assert isinstance(labels, list)
+    assert start >= 0 
+    assert end > start
    
     split_size = len(labels) / (end+1 - start)
     split_size= int(split_size)
