@@ -35,11 +35,11 @@ def main():
     l12 = find_best_lot(frame_dictionary, 'S', 'Mon', 12)
     l2 = find_best_lot(frame_dictionary, 'S', 'Mon', 2)
 
-    print(l8, l10, l12, l2)
+    # print(l8, l10, l12, l2)
 
-    plt.bar([[l8[0], l10[0], l12[0], l2[0]], [l8[1], l10[1],l12[1], l2[1]])
-    plt.title('Student Spots on Mondays')
-    plt.savefig('test.png')
+    # plt.bar([[l8[0], l10[0], l12[0], l2[0]], [l8[1], l10[1],l12[1], l2[1]])
+    # plt.title('Student Spots on Mondays')
+    # plt.savefig('test.png')
   
     
     #find best lots throughout the day? best spot for 8am-2pm

@@ -13,6 +13,7 @@ def main():
         df = reformat_multiple_columns(df, col_names, start=3, end=7)
         print('Fixed formatting')
 
+    
     print(df)
 
 def xcel_to_df(file):
