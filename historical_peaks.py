@@ -6,9 +6,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.dates as md
 import datetime as dt   
+from find_parking import *
 
 def main():
-    pass
+    compare_university()
 
 def where_to_park(quarter='Fall', time='10am', spot_type='S'):
     '''
@@ -59,22 +60,51 @@ def compare_university():
     dfA = pd.read_csv('csv_data/University-wide/University_of_California,_San_Diego__A_Parking_Spaces.csv')
     dfB = pd.read_csv('csv_data/University-wide/University_of_California,_San_Diego__B_Parking_Spaces.csv')
     dfS = pd.read_csv('csv_data/University-wide/University_of_California,_San_Diego__S_Parking_Spaces.csv')
+    dfV = pd.read_csv('csv_data/University-wide/University_of_California,_San_Diego__Visitor_Parking_Spaces.csv')
 
     dfA = dfA[dfA['quarter'] != 'Summer']
     dfB = dfB[dfB['quarter'] != 'Summer']
     dfS = dfS[dfS['quarter'] != 'Summer']
+    dfV = dfV[dfV['quarter'] != 'Summer']
     
     a_fill = dfA.loc[:,['quarter', '%_occupied']]
     b_fill = dfB.loc[:, ['quarter', '%_occupied']]
     s_fill = dfS.loc[:, ['quarter', '%_occupied']]
+    v_fill = dfV.loc[:, ['quarter', '%_occupied']]
 
-    plt.plot(np.arange(len(a_fill['quarter'])),a_fill['%_occupied'], 'r')
-    plt.plot(np.arange(len(a_fill['quarter'])),b_fill['%_occupied'], 'g')
-    plt.plot(np.arange(len(a_fill['quarter'])),s_fill['%_occupied'], 'y')
+    frame_dict = collect_dictionary()
+    percentage_dict = get_peak_percentages(frame_dict)
+
+    aList = list(a_fill['%_occupied'])
+    bList = list(b_fill['%_occupied'])
+    sList = list(s_fill['%_occupied'])
+    vList = list(v_fill['%_occupied'])
+
+    aList.append(percentage_dict['A']['Win19'])
+    aList.append(percentage_dict['A']['Sp19'])
+    bList.append(percentage_dict['B']['Win19'])
+    bList.append(percentage_dict['B']['Sp19'])
+    sList.append(percentage_dict['S']['Win19'])
+    sList.append(percentage_dict['S']['Sp19'])
+    vList.append(percentage_dict['V']['Win19'])
+    vList.append(percentage_dict['V']['Sp19'])
+
+    plt.figure(figsize=(10,5))
+
+    plt.plot(np.arange(len(a_fill['quarter'])+2),aList, 'r', label="Admin")
+    plt.plot(np.arange(len(a_fill['quarter'])+2),bList, 'g', label='Grad')
+    plt.plot(np.arange(len(a_fill['quarter'])+2),sList, 'y', label='Student')
+    plt.plot(np.arange(len(a_fill['quarter'])+2),vList, 'k', label='Visitor')
+
+    plt.yticks(range(2))
+    plt.title('University Parking Spaces Usage Trends (2000-2019)')
     
-    print(len(a_fill['quarter']))
+
+    plt.legend()
     
-    plt.xticks(np.arange(len(a_fill['quarter'])), a_fill['quarter'], rotation=90)
+    # plt.xticks(np.arange(len(a_fill['quarter'])), a_fill['quarter'], rotation=90)
+
+    plt.savefig('images/historical.png')
     
     
 if __name__ == '__main__':

@@ -30,10 +30,12 @@ def main():
 
     frame_dictionary = collect_dictionary()
 
-    l8 = find_best_lot(frame_dictionary, 'S', 'Mon', 8) #returns tuple (lot_name, num_free_spots)
-    l10 = find_best_lot(frame_dictionary, 'S', 'Mon', 10)
-    l12 = find_best_lot(frame_dictionary, 'S', 'Mon', 12)
-    l2 = find_best_lot(frame_dictionary, 'S', 'Mon', 2)
+    get_peak_percentages(frame_dictionary)
+
+    # l8 = find_best_lot(frame_dictionary, 'S', 'Mon', 8) #returns tuple (lot_name, num_free_spots)
+    # l10 = find_best_lot(frame_dictionary, 'S', 'Mon', 10)
+    # l12 = find_best_lot(frame_dictionary, 'S', 'Mon', 12)
+    # l2 = find_best_lot(frame_dictionary, 'S', 'Mon', 2)
 
     # print(l8, l10, l12, l2)
 
@@ -127,6 +129,44 @@ def find_best_lot(aDict, aType, aDay, aTime):
 
 
     return (lot, n_spots )
+
+def get_peak_percentages(frame_dict):
+    '''
+    Return the plot for max peak time percentages per quarter per spot
+
+    - find min of row between mon-fri 
+    - max full is ( total - min_row )
+    - percent_full = sum(row_full) / sum(total_spaces)
+    - take average of weeks, return per type per quarter
+    '''
+    assert isinstance(frame_dict, dict) 
+
+    percent_occupied = {
+        'A': {  'Win19': 0,
+                'Sp19' : 0},
+        'B': {  'Win19': 0,
+                'Sp19' : 0},
+        'S': {  'Win19': 0,
+                'Sp19' : 0},
+        'V': {  'Win19': 0,
+                'Sp19' : 0},
+    }
+
+    for pType in frame_dict: 
+        for quarter in frame_dict[pType]:
+            space_total = 0
+            occupied_total = 0
+            for week in frame_dict[pType][quarter]:
+                df = frame_dict[pType][quarter][week]
+                space_total += df['Total Spaces'].sum()
+
+                occupied_total += (df['Total Spaces'] - df.iloc[:,3:7].min(axis=1) ).sum()
+
+            percent_occupied[pType][quarter] = occupied_total / space_total
+
+    return percent_occupied
+
+
     
 
 
