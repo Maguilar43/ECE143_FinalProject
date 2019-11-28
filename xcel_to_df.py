@@ -2,7 +2,7 @@ import pandas as pd
 import itertools as it
 
 def main():
-    df = pd.read_excel('excel_data/Sp19_wk2_B.xlsx')
+    df = pd.read_excel('excel_data/2019_data/Sp19_wk1_S.xlsx')
 
     days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
     times= ['8', '10', '12', '2']
@@ -10,7 +10,7 @@ def main():
     col_names = combine_lists(days, times)
 
     if needs_formatting(df):
-        df = reformat_columns(df, col_names, start=3, end=7)
+        df = reformat_multiple_columns(df, col_names, start=3, end=7)
         print('Fixed formatting')
 
     print(df)
@@ -30,8 +30,10 @@ def xcel_to_df(file):
     col_names = combine_lists(days, times)
 
     if needs_formatting(df):
-        df = reformat_columns(df, col_names, start=3, end=7)
-    
+        df = reformat_multiple_columns(df, col_names, start=3, end=7)
+
+    df = clean_df(df)
+   
     return df 
 
 
@@ -69,7 +71,7 @@ def needs_formatting(df):
     except: 
         return False
 
-def reformat_columns(df, labels, start=0, end=-1):
+def reformat_multiple_columns(df, labels, start=0, end=-1):
     '''
     splot columns into evenly split columns depending on labels
 
@@ -98,14 +100,14 @@ def reformat_columns(df, labels, start=0, end=-1):
     df = df.drop(df.iloc[:,start:end+1], axis=1)
     
     for i,el in enumerate(cuts):
-        cuts[i] = reformat_column(el, labels[i*split_size: i*split_size + split_size])
+        cuts[i] = reformat_single_column(el, labels[i*split_size: i*split_size + split_size])
         df = pd.concat([df, cuts[i]], axis=1)
        
     return df
 
 
 
-def reformat_column(aCol, labels, aType=int):
+def reformat_single_column(aCol, labels, aType=int):
     '''
     split a dataframe into multiple based off label input
 
@@ -125,7 +127,12 @@ def reformat_column(aCol, labels, aType=int):
     assert all( isinstance(name, str) for name in labels)
     assert isinstance(aType, type)
 
-    return aCol.str.split(expand=True).set_axis(labels, axis=1, inplace=False).astype(aType)
+    return aCol.str.split(expand=True).set_axis(labels, axis=1, inplace=False)
+
+def clean_df(df):
+    df.loc[:, 'Total Spaces': 'Fri-2'] = df.loc[:,'Total Spaces': 'Fri-2'].replace(to_replace= '-', value=0)
+    
+    return df
 
 
 if __name__ == '__main__':
