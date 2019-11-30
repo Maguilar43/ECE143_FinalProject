@@ -132,6 +132,8 @@ def reformat_single_column(aCol, labels, aType=int):
 
 def clean_df(df):
     df.loc[:, 'Total Spaces': 'Fri-2'] = df.loc[:,'Total Spaces': 'Fri-2'].replace(to_replace= '-', value=0)
+    df['Lot'] = df['Lot'].astype(str)
+    df['Structure'] = df['Structure'].astype(str)
     
     return df
 

@@ -9,7 +9,22 @@ import datetime as dt
 from find_parking import *
 
 def main():
-    compare_university()
+
+    quarter = 'Spring'
+    ax = compare_university(quarter)
+
+    ax.plot()
+    plt.yticks(np.arange(50, 101, step=10))
+    plt.title('University Parking Trends (2000-2019) -- '+quarter+' Quarters')
+    plt.ylabel('Percent Full')
+    plt.xlabel('Year')
+
+    plt.legend(loc = 'lower right')
+    plt.xticks(range(2000, 2020))
+    plt.locator_params(axis='x', nbins=10)
+
+    plt.savefig('images/'+quarter+'_history.png')
+    
 
 def where_to_park(quarter='Fall', time='10am', spot_type='S'):
     '''
@@ -53,58 +68,62 @@ def view_quarter_peaks():
     plt.plot(df.year, df.peak)
     plt.xticks(s_yr)
 
-def compare_university():
+def compare_university(quarter_name):
     '''
     Shows A,B,S usage trends through all years and quarters of data (Summer Excluded)
     '''
+    frame_dict = collect_dictionary()
+    percentage_dict = get_peak_percentages(frame_dict)
+
+
+    letter = ['A', 'B', 'S', 'V']
+    label = ['Admin', 'Grad', 'Student', 'Visitor']
+    color = ['r', 'g', 'y', 'k']
+    marker= [':', '-.', '-', '--']
+
     dfA = pd.read_csv('csv_data/University-wide/University_of_California,_San_Diego__A_Parking_Spaces.csv')
     dfB = pd.read_csv('csv_data/University-wide/University_of_California,_San_Diego__B_Parking_Spaces.csv')
     dfS = pd.read_csv('csv_data/University-wide/University_of_California,_San_Diego__S_Parking_Spaces.csv')
     dfV = pd.read_csv('csv_data/University-wide/University_of_California,_San_Diego__Visitor_Parking_Spaces.csv')
 
-    dfA = dfA[dfA['quarter'] != 'Summer']
-    dfB = dfB[dfB['quarter'] != 'Summer']
-    dfS = dfS[dfS['quarter'] != 'Summer']
-    dfV = dfV[dfV['quarter'] != 'Summer']
-    
-    a_fill = dfA.loc[:,['quarter', '%_occupied']]
-    b_fill = dfB.loc[:, ['quarter', '%_occupied']]
-    s_fill = dfS.loc[:, ['quarter', '%_occupied']]
-    v_fill = dfV.loc[:, ['quarter', '%_occupied']]
+    frames = [dfA, dfB, dfS, dfV]
 
-    frame_dict = collect_dictionary()
-    percentage_dict = get_peak_percentages(frame_dict)
+    f, ax = plt.subplots(figsize=(10,5))
 
-    aList = list(a_fill['%_occupied'])
-    bList = list(b_fill['%_occupied'])
-    sList = list(s_fill['%_occupied'])
-    vList = list(v_fill['%_occupied'])
+    for i, frame in enumerate(frames):
+        l = [0] * (2020 - 2000)
+        
 
-    aList.append(percentage_dict['A']['Win19'])
-    aList.append(percentage_dict['A']['Sp19'])
-    bList.append(percentage_dict['B']['Win19'])
-    bList.append(percentage_dict['B']['Sp19'])
-    sList.append(percentage_dict['S']['Win19'])
-    sList.append(percentage_dict['S']['Sp19'])
-    vList.append(percentage_dict['V']['Win19'])
-    vList.append(percentage_dict['V']['Sp19'])
+        frame = frame[frame['quarter'] == quarter_name]
+        fill = frame.loc[:, ['quarter', '%_occupied']]
+        l[0:16] = list(fill['%_occupied'])
+        
+        
 
-    plt.figure(figsize=(10,5))
+        l[15:19] = [None] * 4
 
-    plt.plot(np.arange(len(a_fill['quarter'])+2),aList, 'r', label="Admin")
-    plt.plot(np.arange(len(a_fill['quarter'])+2),bList, 'g', label='Grad')
-    plt.plot(np.arange(len(a_fill['quarter'])+2),sList, 'y', label='Student')
-    plt.plot(np.arange(len(a_fill['quarter'])+2),vList, 'k', label='Visitor')
+        if quarter_name == 'Winter': 
+            l[-1] = percentage_dict[letter[i]]['Win19']
+        elif quarter_name ==  'Spring':
+            l[-1] = percentage_dict[letter[i]]['Sp19']
 
-    plt.yticks(range(2))
-    plt.title('University Parking Spaces Usage Trends (2000-2019)')
     
 
-    plt.legend()
-    
-    # plt.xticks(np.arange(len(a_fill['quarter'])), a_fill['quarter'], rotation=90)
+        series1 = np.array(l).astype(np.double) * 100
+        s1mask = np.isfinite(series1)
 
-    plt.savefig('images/historical.png')
+        s2 = list(range(2000, 2020))
+    
+        s2[15:19] = [None] * 4
+
+        s2 = np.array(s2).astype(np.double)
+        s2mask = np.isfinite(s2)
+
+        ax.plot(s2[s2mask],series1[s1mask], color[i] , label= label[i], linestyle = marker[i], linewidth=3)
+
+    return ax
+
+
     
     
 if __name__ == '__main__':

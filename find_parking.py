@@ -1,5 +1,7 @@
-from xcel_to_df import xcel_to_df
+from xcel_to_df import xcel_to_df, combine_lists
+from statistics import mode
 import matplotlib.pyplot as plt 
+import numpy as np
 import pandas as pd 
 import math
 import os
@@ -32,12 +34,20 @@ def main():
 
     get_peak_percentages(frame_dictionary)
 
-    # l8 = find_best_lot(frame_dictionary, 'S', 'Mon', 8) #returns tuple (lot_name, num_free_spots)
-    # l10 = find_best_lot(frame_dictionary, 'S', 'Mon', 10)
-    # l12 = find_best_lot(frame_dictionary, 'S', 'Mon', 12)
-    # l2 = find_best_lot(frame_dictionary, 'S', 'Mon', 2)
+  
 
-    # print(l8, l10, l12, l2)
+   
+
+    lot, values = get_best_lot_times(frame_dictionary, 'S', 'Mon')
+
+    print(lot, values)
+
+    plt.bar(['8am', '10am', '12pm', '2pm'], values)
+    plt.title('Open Student Parking for Lot '+lot)
+    plt.xlabel('Time of Day')
+    plt.ylabel('Number of Open Spaces')
+    plt.savefig('images/best_lot.png')
+   
 
     # plt.bar([[l8[0], l10[0], l12[0], l2[0]], [l8[1], l10[1],l12[1], l2[1]])
     # plt.title('Student Spots on Mondays')
@@ -73,9 +83,60 @@ def collect_dictionary():
         
     return d
 
+def get_best_lot_times(aDict, aType, aDay):
+    '''
+    Find the best lot on a specific day for a specified type of lot 
+
+    :param aDict: dictionary formed from collect_dictionary for all lots
+    :type  aDict: dict
+
+    :param aType: single character representing the type of space user is looking forl
+    :type  aType: str / chr
+
+    :param aDay: the day of the week the user is looking for ['Mon', 'Tue', ...]
+    :type  aDay: str     
+    '''
+    assert isinstance(aDict, dict)
+    assert isinstance(aType, str)
+    assert isinstance(aDay, str)
+    assert aType.isalpha() and aType.isupper()
+    assert len(aDay) == 3
+
+    times = [8, 10, 12, 2]
+
+    col_names = [ aDay+'-'+str(time) for time in times ]
+
+    best_lots = [find_best_lot(aDict, aType, aDay, time) for time in times]
+
+    lots = [el[0] for el in best_lots]
+    max_times = [el[1] for el in best_lots]
+    max_times = np.array(max_times)
+
+    try:
+        top_lot = mode(lots)
+    except:
+        best_time_idx = np.argmax(max_times)
+        top_lot = lots[best_time_idx]
+
+    df = aDict[aType]['Sp19']['wk2']
+    
+    try: 
+        row = df[df['Structure'] == top_lot]
+        if row.empty:
+            raise ValueError
+    except:
+        row = df.loc[df['Lot'] == top_lot]
+
+    vals = row.loc[:, col_names[0]: col_names[-1]]
+    vals = vals.values.tolist()[0]
+
+    return top_lot, vals
+        
+
+
 def find_best_lot(aDict, aType, aDay, aTime):
     '''
-    With given parameters, return the dataframe for a specific spot type, day, and time
+    With given parameters, return the lot name for a specific spot type, day, and time
     that has the most amount of available spots
 
     :param aDict: dictionary formed from collect_dictionary for all lots
@@ -122,7 +183,7 @@ def find_best_lot(aDict, aType, aDay, aTime):
                     checker = math.isnan(row['Structure'])
                     lot = row['Lot'] if checker else row['Structure']
                 except:
-                    checker = row['Structure']=='NaN'
+                    checker = row['Structure']=='NaN' or row['Structure'] == "nan"
                     lot = row['Lot'] if checker else row['Structure']
 
                 
@@ -132,7 +193,7 @@ def find_best_lot(aDict, aType, aDay, aTime):
 
 def get_peak_percentages(frame_dict):
     '''
-    Return the plot for max peak time percentages per quarter per spot
+    Return the dictionary for max peak time percentages per quarter per spot
 
     - find min of row between mon-fri 
     - max full is ( total - min_row )
@@ -160,14 +221,26 @@ def get_peak_percentages(frame_dict):
                 df = frame_dict[pType][quarter][week]
                 space_total += df['Total Spaces'].sum()
 
-                occupied_total += (df['Total Spaces'] - df.iloc[:,3:7].min(axis=1) ).sum()
+                times = [0] * 5 # 8am, 10am, 12pm, 2pm
+            
 
+                days_by_time = df.iloc[:, 3:] # gets mon-8 --> fri-2
+
+                for i in range(0,4): # 0-4 relates to 8am-2pm cuts
+                    at_time = days_by_time.iloc[:, [i, i+4, i+8, i+12, i+16]].astype('float64').mean(axis=1)
+                    times[i] = at_time
+                    
+                data = {'8': times[0], '10': times[1], '12': times[2], '2': times[3]}
+                time_df = pd.DataFrame(data)
+
+
+                occupied_total += (df['Total Spaces'] - time_df.min(axis=1) ).sum()
+              
+    
             percent_occupied[pType][quarter] = occupied_total / space_total
 
     return percent_occupied
 
-
-    
 
 
 if __name__ == '__main__':
