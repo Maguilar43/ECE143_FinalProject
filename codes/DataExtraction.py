@@ -10,11 +10,12 @@ def open_excel(file):
 	:return: xlrd.sheets, all sheets of this excel file.
 	'''
 
+	assert isinstance(file, str)
 
 	print(file.title())
-	if file.title().startswith('Excel_Data/~$'):
+	if file.title().startswith('../Excel_Data/~$'):
 		# To avoid if there are some program using excel Windows and generating a temporary excel file
-		return ['Wrong']
+		return ['Ignore it']
 	wb = xlrd.open_workbook(filename=file)
 	sheets = wb.sheets()
 
@@ -31,6 +32,9 @@ def create_csv(sheet, prefix, prev_path):
 	:return: str, the csv_data file path name
 	'''
 
+	assert isinstance(sheet, xlrd.sheet.Sheet)
+	assert isinstance(prefix, str)
+	assert isinstance(prev_path, str)
 
 	# Using a flag to show whether this sheet is in the same table of the previous one
 	# but in a different sheet.
@@ -123,6 +127,9 @@ def handleCornerCase(csv_write, s):
 	:param s: the values we want to add into our csv data files
 	:return: None
 	'''
+
+	assert isinstance(s, list)
+
 	summer_list = list()
 	fall_list = list()
 	winter_list = list()
@@ -174,45 +181,46 @@ def fix_minor_mistakes():
 	because some of our excel files have some error
 	:return: None
 	'''
-	prefix = 'csv_data/By-Neighborhood/'
+	prefix = '../csv_data/'
 	# file_list = ['Sixth_College__All_Parking_Spaces_Combined.csv',
 	# 			 'Science_Research_Park__All_Parking_Spaces_Combined.csv',
 	# 			 'North_Torrey_Pines_and_Glider_Port__All_Parking_Spaces_Combined.csv']
-	file_list = os.listdir(prefix)
-	lines_list = []
+	whole_csv_folder = os.listdir(prefix)
 	quarter_list = ['Summer', 'Fall', 'Winter', 'Spring']
-	for file in file_list:
-		if not file.endswith('__All_Parking_Spaces_Combined.csv'):
-			continue
-
-		fd = open(prefix + file, 'r')
-		line = fd.readline()
-		lines = []
-		lines.append(line)
-		count = 0
-		while True:
-			line = fd.readline()
-			if not line:
-				break
-			if line[8].isalpha():
-				lines.append(line)
+	for category in whole_csv_folder:
+		lines_list = []
+		file_list = os.listdir(prefix + category + '/')
+		modify_list = []
+		for file in file_list:
+			if not file.endswith('__All_Parking_Spaces_Combined.csv'):
 				continue
-			line = line[0:8] + quarter_list[count % 4] + ',' + line[8:]
-			count += 1
+			modify_list.append(file)
+			fd = open(prefix + category + '/' + file, 'r')
+			line = fd.readline()
+			lines = []
 			lines.append(line)
-		lines_list.append(lines)
-		fd.close()
+			count = 0
+			while True:
+				line = fd.readline()
+				if not line:
+					break
+				if not line[8].isalpha():
+					line = line[0:8] + quarter_list[count % 4] + ',' + line[8:]
+				count += 1
+				lines.append(line)
+			lines_list.append(lines)
+			fd.close()
 
-	for file, lines in zip(file_list, lines_list):
-		fd = open(prefix + file, 'w')
-		for line in lines:
-			fd.write(line)
-		fd.close()
+		for file, lines in zip(modify_list, lines_list):
+			fd = open(prefix + category + '/' + file, 'w')
+			for line in lines:
+				fd.write(line)
+			fd.close()
 
 # The main function to iterate all excel files and then get csv data files
 if __name__ == '__main__':
-	prefix = 'csv_data/'
-	excel_location = 'excel_data/'
+	prefix = '../csv_data/'
+	excel_location = '../excel_data/'
 	files = os.listdir(excel_location)
 
 	for file in files:
