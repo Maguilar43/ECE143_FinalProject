@@ -8,9 +8,6 @@ from xcel_to_df import xcel_to_df
 
 def main():
 
-    # quarter = 'Spring'
-    # ax = compare_university(quarter)
-
     dist_2000 = get_spot_distribution(2000)
     dist_2015 = get_spot_distribution(2015)
     dist_2019 = get_spot_distribution(2019)
@@ -31,6 +28,9 @@ def main():
     plt.legend(['Admin (A)', 'Grad (B)', 'Student (S)', 'Visitor (V)'], loc = 'lower left', bbox_to_anchor=(-0.4, -.24, 0.5, 0.5))
     plt.savefig('../images/Spot Distributions', dpi=300)
     
+
+    # quarter = 'Spring'
+    # ax = compare_university(quarter)
 
     # ax.plot()
     # plt.yticks(np.arange(50, 101, step=10))
