@@ -8,35 +8,35 @@ from xcel_to_df import xcel_to_df
 
 def main():
 
-    dist_2000 = get_spot_distribution(2000)
-    dist_2019 = get_spot_distribution(2019)
+    # dist_2000 = get_spot_distribution(2000)
+    # dist_2019 = get_spot_distribution(2019)
 
-    plt.subplot(1, 2, 1)
-    plt.pie(dist_2000, autopct='%1.0f%%', colors=['#d43928', '#22b55b', '#f2de24', '#b8b8b8'])
-    plt.title('Year 2000')
+    # plt.subplot(1, 2, 1)
+    # plt.pie(dist_2000, autopct='%1.0f%%', colors=['#d43928', '#22b55b', '#f2de24', '#b8b8b8'])
+    # plt.title('Year 2000')
 
-    plt.subplot(1, 2, 2)
-    plt.pie(dist_2019, autopct='%1.0f%%', colors=['#d43928', '#22b55b', '#f2de24', '#b8b8b8'])
-    plt.title('Year 2019')
+    # plt.subplot(1, 2, 2)
+    # plt.pie(dist_2019, autopct='%1.0f%%', colors=['#d43928', '#22b55b', '#f2de24', '#b8b8b8'])
+    # plt.title('Year 2019')
 
-    plt.legend(['Admin (A)', 'Grad (B)', 'Student (S)', 'Visitor (V)'], loc = 'lower left', bbox_to_anchor=(-0.4, -.24, 0.5, 0.5))
-    plt.savefig('../images/Spot Distributions', dpi=300)
+    # plt.legend(['Admin (A)', 'Grad (B)', 'Student (S)', 'Visitor (V)'], loc = 'lower left', bbox_to_anchor=(-0.4, -.24, 0.5, 0.5))
+    # plt.savefig('../images/Spot Distributions', dpi=300)
     
-
-    # quarter = 'Spring'
-    # ax = compare_university(quarter)
-
-    # ax.plot()
-    # plt.yticks(np.arange(50, 101, step=10))
-    # plt.title('University Parking Trends (2000-2019) -- '+quarter+' Quarters', fontsize=18)
-    # plt.ylabel('Percent Full')
-    # plt.xlabel('Year')
 # 
-    # plt.legend(loc = 'lower right')
-    # plt.xticks(range(2000, 2020))
-    # plt.locator_params(axis='x', nbins=10)
+    quarter = 'Spring'
+    ax = compare_university(quarter)
 # 
-    # plt.savefig('../images/'+quarter+'_history.png')
+    ax.plot()
+    plt.yticks(np.arange(50, 101, step=10))
+    plt.title('University Parking Trends (2000-2019) -- '+quarter+' Quarters', fontsize=18)
+    plt.ylabel('Percent Full')
+    plt.xlabel('Year')
+# 
+    plt.legend(loc = 'lower right')
+    plt.xticks(range(2000, 2020))
+    plt.locator_params(axis='x', nbins=10)
+
+    plt.savefig('../images/'+quarter+'_history.png')
     
 def compare_university(quarter_name):
     '''

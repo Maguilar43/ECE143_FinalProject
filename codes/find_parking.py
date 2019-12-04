@@ -22,7 +22,7 @@ def main():
     plt.title('Open Student Parking for Lot '+lot)
     plt.xlabel('Time of Day')
     plt.ylabel('Number of Open Spaces')
-    plt.savefig('images/best_lot.png')
+    plt.savefig('../images/best_lot.png', dpi=300)
 
 
 def collect_dictionary():
