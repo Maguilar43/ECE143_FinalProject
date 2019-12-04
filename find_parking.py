@@ -11,7 +11,26 @@ import re
 
 
 def main():
+    
+
+    frame_dictionary = collect_dictionary()
+   
+
+    lot, values = get_best_lot_times(frame_dictionary, 'S', 'Mon')
+
+    plt.bar(['8am', '10am', '12pm', '2pm'], values)
+    plt.title('Open Student Parking for Lot '+lot)
+    plt.xlabel('Time of Day')
+    plt.ylabel('Number of Open Spaces')
+    plt.savefig('images/best_lot.png')
+
+
+def collect_dictionary():
     '''
+    Here is where we hand pick the dataframes we want to work with and 
+    return them in an orderly manner
+
+ 
     frame_dictionary
     |
     |
@@ -28,38 +47,6 @@ def main():
     |---B---|     
 
 
-    '''
-
-    frame_dictionary = collect_dictionary()
-
-    get_peak_percentages(frame_dictionary)
-
-  
-
-   
-
-    lot, values = get_best_lot_times(frame_dictionary, 'S', 'Mon')
-
-    print(lot, values)
-
-    plt.bar(['8am', '10am', '12pm', '2pm'], values)
-    plt.title('Open Student Parking for Lot '+lot)
-    plt.xlabel('Time of Day')
-    plt.ylabel('Number of Open Spaces')
-    plt.savefig('images/best_lot.png')
-   
-
-    # plt.bar([[l8[0], l10[0], l12[0], l2[0]], [l8[1], l10[1],l12[1], l2[1]])
-    # plt.title('Student Spots on Mondays')
-    # plt.savefig('test.png')
-  
-    
-    #find best lots throughout the day? best spot for 8am-2pm
-
-def collect_dictionary():
-    '''
-    Here is where we hand pick the dataframes we want to work with and 
-    return them in an orderly manner
     '''
     path = 'excel_data/2019_data/'
     d = {}
@@ -191,55 +178,7 @@ def find_best_lot(aDict, aType, aDay, aTime):
 
     return (lot, n_spots )
 
-def get_peak_percentages(frame_dict):
-    '''
-    Return the dictionary for max peak time percentages per quarter per spot
 
-    - find min of row between mon-fri 
-    - max full is ( total - min_row )
-    - percent_full = sum(row_full) / sum(total_spaces)
-    - take average of weeks, return per type per quarter
-    '''
-    assert isinstance(frame_dict, dict) 
-
-    percent_occupied = {
-        'A': {  'Win19': 0,
-                'Sp19' : 0},
-        'B': {  'Win19': 0,
-                'Sp19' : 0},
-        'S': {  'Win19': 0,
-                'Sp19' : 0},
-        'V': {  'Win19': 0,
-                'Sp19' : 0},
-    }
-
-    for pType in frame_dict: 
-        for quarter in frame_dict[pType]:
-            space_total = 0
-            occupied_total = 0
-            for week in frame_dict[pType][quarter]:
-                df = frame_dict[pType][quarter][week]
-                space_total += df['Total Spaces'].sum()
-
-                times = [0] * 5 # 8am, 10am, 12pm, 2pm
-            
-
-                days_by_time = df.iloc[:, 3:] # gets mon-8 --> fri-2
-
-                for i in range(0,4): # 0-4 relates to 8am-2pm cuts
-                    at_time = days_by_time.iloc[:, [i, i+4, i+8, i+12, i+16]].astype('float64').mean(axis=1)
-                    times[i] = at_time
-                    
-                data = {'8': times[0], '10': times[1], '12': times[2], '2': times[3]}
-                time_df = pd.DataFrame(data)
-
-
-                occupied_total += (df['Total Spaces'] - time_df.min(axis=1) ).sum()
-              
-    
-            percent_occupied[pType][quarter] = occupied_total / space_total
-
-    return percent_occupied
 
 
 
