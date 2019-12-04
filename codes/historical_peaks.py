@@ -9,21 +9,15 @@ from xcel_to_df import xcel_to_df
 def main():
 
     dist_2000 = get_spot_distribution(2000)
-    dist_2015 = get_spot_distribution(2015)
     dist_2019 = get_spot_distribution(2019)
 
-    plt.subplot(1, 3, 1)
-    plt.pie(dist_2000, autopct='%1.0f%%', colors=['red', 'green', '#FFC133', 'gray'])
+    plt.subplot(1, 2, 1)
+    plt.pie(dist_2000, autopct='%1.0f%%', colors=['#d43928', '#22b55b', '#f2de24', '#b8b8b8'])
     plt.title('Year 2000')
 
-    plt.subplot(1, 3, 2)
-    plt.pie(dist_2019, autopct='%1.0f%%',  colors=['red', 'green', '#FFC133', 'gray'])
+    plt.subplot(1, 2, 2)
+    plt.pie(dist_2019, autopct='%1.0f%%', colors=['#d43928', '#22b55b', '#f2de24', '#b8b8b8'])
     plt.title('Year 2019')
-
-    plt.subplot(1, 3, 3)
-    plt.pie(dist_2015, autopct='%1.0f%%',  colors=['red', 'green', '#FFC133', 'gray'])
-    plt.title('Year 2015')
-
 
     plt.legend(['Admin (A)', 'Grad (B)', 'Student (S)', 'Visitor (V)'], loc = 'lower left', bbox_to_anchor=(-0.4, -.24, 0.5, 0.5))
     plt.savefig('../images/Spot Distributions', dpi=300)
