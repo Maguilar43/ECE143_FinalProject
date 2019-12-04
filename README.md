@@ -7,6 +7,12 @@
 - Kasidech Tantipanichaphan
 
 ## File Structure: 
+- codes/ - all .py files and the Jupyter Notebook
+- pdf_data/ - the data we were able to get from UCSD
+- excel_data/ - converted data from PDF -> EXCEL using an Adobe converter
+- excel_data/2019_data/ - 2019 data seperated by spot type, by quarter, by week
+- csv_data/ - correctly formatted data that was converted form Adobe to excel
+- images/ - various pictures created throughout code building
 
 ## How to Run the Code: 
 #### xcel_to_df.py
