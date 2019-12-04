@@ -2,18 +2,8 @@ import pandas as pd
 import itertools as it
 
 def main():
-    df = pd.read_excel('excel_data/2019_data/Sp19_wk1_S.xlsx')
+    df = xcel_to_df('../excel_data/2019_data/Sp19_wk1_S.xlsx')
 
-    days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
-    times= ['8', '10', '12', '2']
-
-    col_names = combine_lists(days, times)
-
-    if needs_formatting(df):
-        df = reformat_multiple_columns(df, col_names, start=3, end=7)
-        print('Fixed formatting')
-
-    
     print(df)
 
 def xcel_to_df(file):

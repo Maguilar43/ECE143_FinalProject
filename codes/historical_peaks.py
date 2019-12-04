@@ -29,7 +29,7 @@ def main():
 
 
     plt.legend(['Admin (A)', 'Grad (B)', 'Student (S)', 'Visitor (V)'], loc = 'lower left', bbox_to_anchor=(-0.4, -.24, 0.5, 0.5))
-    plt.savefig('Spot Distributions', dpi=300)
+    plt.savefig('../images/Spot Distributions', dpi=300)
     
 
     # ax.plot()
@@ -42,7 +42,7 @@ def main():
     # plt.xticks(range(2000, 2020))
     # plt.locator_params(axis='x', nbins=10)
 # 
-    # plt.savefig('images/'+quarter+'_history.png')
+    # plt.savefig('../images/'+quarter+'_history.png')
     
 def compare_university(quarter_name):
     '''
@@ -65,10 +65,10 @@ def compare_university(quarter_name):
     color = ['r', 'g', 'y', 'k']
     marker= [':', '-.', '-', '--']
 
-    dfA = pd.read_csv('csv_data/University-wide/University_of_California,_San_Diego__A_Parking_Spaces.csv')
-    dfB = pd.read_csv('csv_data/University-wide/University_of_California,_San_Diego__B_Parking_Spaces.csv')
-    dfS = pd.read_csv('csv_data/University-wide/University_of_California,_San_Diego__S_Parking_Spaces.csv')
-    dfV = pd.read_csv('csv_data/University-wide/University_of_California,_San_Diego__Visitor_Parking_Spaces.csv')
+    dfA = pd.read_csv('../csv_data/University-wide/University_of_California,_San_Diego__A_Parking_Spaces.csv')
+    dfB = pd.read_csv('../csv_data/University-wide/University_of_California,_San_Diego__B_Parking_Spaces.csv')
+    dfS = pd.read_csv('../csv_data/University-wide/University_of_California,_San_Diego__S_Parking_Spaces.csv')
+    dfV = pd.read_csv('../csv_data/University-wide/University_of_California,_San_Diego__Visitor_Parking_Spaces.csv')
 
     frames = [dfA, dfB, dfS, dfV]
 
@@ -122,10 +122,10 @@ def get_spot_distribution(year):
 
     if year < 2016: 
     
-        dfA = pd.read_csv('csv_data/University-wide/University_of_California,_San_Diego__A_Parking_Spaces.csv')
-        dfB = pd.read_csv('csv_data/University-wide/University_of_California,_San_Diego__B_Parking_Spaces.csv')
-        dfS = pd.read_csv('csv_data/University-wide/University_of_California,_San_Diego__S_Parking_Spaces.csv')
-        dfV = pd.read_csv('csv_data/University-wide/University_of_California,_San_Diego__Visitor_Parking_Spaces.csv')
+        dfA = pd.read_csv('../csv_data/University-wide/University_of_California,_San_Diego__A_Parking_Spaces.csv')
+        dfB = pd.read_csv('../csv_data/University-wide/University_of_California,_San_Diego__B_Parking_Spaces.csv')
+        dfS = pd.read_csv('../csv_data/University-wide/University_of_California,_San_Diego__S_Parking_Spaces.csv')
+        dfV = pd.read_csv('../csv_data/University-wide/University_of_California,_San_Diego__Visitor_Parking_Spaces.csv')
 
         frames = [dfA, dfB, dfS, dfV]
 
@@ -140,10 +140,10 @@ def get_spot_distribution(year):
             total_spaces += type_totals[i]
 
     elif year == 2019: 
-        dfA = xcel_to_df('excel_data/2019_data/Sp19_wk2_A.xlsx')
-        dfB = xcel_to_df('excel_data/2019_data/Sp19_wk2_B.xlsx')
-        dfS = xcel_to_df('excel_data/2019_data/Sp19_wk2_S.xlsx')
-        dfV = xcel_to_df('excel_data/2019_data/Sp19_wk2_V.xlsx')
+        dfA = xcel_to_df('../excel_data/2019_data/Sp19_wk2_A.xlsx')
+        dfB = xcel_to_df('../excel_data/2019_data/Sp19_wk2_B.xlsx')
+        dfS = xcel_to_df('../excel_data/2019_data/Sp19_wk2_S.xlsx')
+        dfV = xcel_to_df('../excel_data/2019_data/Sp19_wk2_V.xlsx')
 
         frames = [dfA, dfB, dfS, dfV]
         total_spaces = 0

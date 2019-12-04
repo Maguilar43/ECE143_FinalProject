@@ -48,7 +48,7 @@ def collect_dictionary():
 
 
     '''
-    path = 'excel_data/2019_data/'
+    path = '../excel_data/2019_data/'
     d = {}
 
     for filename in os.listdir(path):
