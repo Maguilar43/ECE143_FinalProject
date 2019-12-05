@@ -182,15 +182,15 @@ def fix_minor_mistakes():
 	:return: None
 	'''
 	prefix = '../csv_data/'
-	# file_list = ['Sixth_College__All_Parking_Spaces_Combined.csv',
-	# 			 'Science_Research_Park__All_Parking_Spaces_Combined.csv',
-	# 			 'North_Torrey_Pines_and_Glider_Port__All_Parking_Spaces_Combined.csv']
+
 	whole_csv_folder = os.listdir(prefix)
 	quarter_list = ['Summer', 'Fall', 'Winter', 'Spring']
 	for category in whole_csv_folder:
 		lines_list = []
 		file_list = os.listdir(prefix + category + '/')
 		modify_list = []
+		# The data file of all parking spaces combined missing quarter information
+		# So we find all those files and add quarters to the csv files
 		for file in file_list:
 			if not file.endswith('__All_Parking_Spaces_Combined.csv'):
 				continue
@@ -219,6 +219,8 @@ def fix_minor_mistakes():
 
 # The main function to iterate all excel files and then get csv data files
 if __name__ == '__main__':
+
+	print('Converting all useful excel files data into csv data files')
 	prefix = '../csv_data/'
 	excel_location = '../excel_data/'
 	files = os.listdir(excel_location)
@@ -245,5 +247,7 @@ if __name__ == '__main__':
 			if not os.path.exists(folder):
 				os.makedirs(folder)
 			prev = create_csv(sheet, folder, prev)
+	print('Cleaning useless data and fixing format issues')
 	fix_minor_mistakes()
+	print('Done!')
 
