@@ -11,7 +11,7 @@
 - pdf_data/ - the data we were able to get from UCSD
 - excel_data/ - converted data from PDF -> EXCEL using an Adobe converter
 - excel_data/2019_data/ - 2019 data seperated by spot type, by quarter, by week
-- csv_data/ - correctly formatted data that was converted form Adobe to excel
+- csv_data/ - correctly formatted data that was converted from excel files using data_extraction script
 - images/ - various pictures created throughout code building
 
 ## How to Run the Code: 
@@ -29,7 +29,6 @@ Running this file generates both a pie chart showing the spot distributions thro
 - < python find_parking.py >
 
 Running this file returns the best lot to park in for a specified Spot type and Day of week defined in main()
-
 
 
 
