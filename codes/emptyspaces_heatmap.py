@@ -22,7 +22,10 @@ def find_19_dataframe(file_prefix, quarter):
     files = os.listdir(prefix)
     
     dict_list = []
-    
+
+    # Every single file in 2019 data folder will result a dataframe,
+    # we convert that dataframe to dictionary and use a list to store
+    # all those dictionaries
     for file in files:
         if file.startswith(file_prefix):
 
@@ -91,7 +94,6 @@ def get_df(filename):
     file_list = [ 'Win19_wk2','Sp19_wk2']
     quarter_list = ['Winter', 'Spring']
 
-
     dict_list = [find_19_dataframe(x, y) for x, y in zip(file_list, quarter_list)]
 
     # Combine A,B,S,V data of our dictionary into one total dataframe
@@ -136,6 +138,8 @@ def get_figure():
 
     :return: None
     '''
+
+    # Using time, date and empty_spaces as three parameters for our heatmap
     s = ['8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm']
     df_temp,order = get_df('University_of_California,_San_Diego__All_Parking_Spaces_Combined.csv')
     spaces_data =  df_temp.pivot('time','date','empty_spaces').reindex(s, columns = order)
@@ -152,3 +156,6 @@ def get_figure():
     plt.savefig("../images/empty_spaces_heatmap.jpg", bbox_inches = 'tight')
     plt.show()
 
+if __name__ == '__main__':
+    print('Collecting data and plot the empty spaces heatmap')
+    get_figure()
