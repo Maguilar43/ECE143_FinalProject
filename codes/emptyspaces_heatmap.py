@@ -88,8 +88,8 @@ def get_df(filename):
     assert isinstance(filename, str)
 
 
-    file_list = ['Sp19_wk2', 'Win19_wk2']
-    quarter_list = ['Spring', 'Winter']
+    file_list = [ 'Win19_wk2','Sp19_wk2']
+    quarter_list = ['Winter', 'Spring']
 
 
     dict_list = [find_19_dataframe(x, y) for x, y in zip(file_list, quarter_list)]
