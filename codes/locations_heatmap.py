@@ -63,8 +63,12 @@ def get_weights(year):
     :return: list, the weights list we want to use in for the location heatmap
     '''
 
+    assert isinstance(year, str)
+
     prefix = '../csv_data/By-Neighborhood/'
     files = os.listdir(prefix)
+    # Use weights list to record all the weights we want to use for
+    # the heatmap
     weights = []
     for loc in location_dict:
         total_aver = 0
@@ -82,13 +86,17 @@ def get_the_dataframe(year):
     :param year: str, the year of locations heatmap we want to plot
     :return: DataFrame, the dataframe we are used for getting the Google Map locations heatmap
     '''
+
+    assert isinstance(year, str)
+
+    # Using latitude, longitude as the locations and average occupancy as the weights
+    # to generate a dataframe
     lat_list = [location_dict[loc][0] for loc in location_dict]
     long_list = [location_dict[loc][1] for loc in location_dict]
     weights = get_weights(year)
     df = pd.DataFrame()
     df['latitude'] = lat_list
     df['longitude'] = long_list
-    # df['average'] = [math.log(x) if not math.isnan(x) else 1 for x in weights]
     df['average'] = [x if not math.isnan(x) and x > 0 else 1 for x in weights]
     return df
 
@@ -103,6 +111,8 @@ def get_GoogleMap(df):
 
     assert isinstance(df, pd.DataFrame)
 
+    # Using gmaps package for getting Google Maps really location heatmap
+    # This API_KEY may expire, please replace with your api key here
     gmaps.configure(api_key='AIzaSyBijrsbL29gQ7aBIbOt-6Xouz2EFJXIrbw')
 
     fig = gmaps.figure()
@@ -110,5 +120,11 @@ def get_GoogleMap(df):
         df[['latitude', 'longitude']], weights=df['average'],
         point_radius=25.0
     )
+
     fig.add_layer(heatmap_layer)
     return fig
+
+
+if __name__ == '__main__':
+    print('Using location data to generate a Google Map heatmap')
+    print('Please use jupyter notebook to open this figure')
