@@ -128,3 +128,5 @@ def get_GoogleMap(df):
 if __name__ == '__main__':
     print('Using location data to generate a Google Map heatmap')
     print('Please use jupyter notebook to open this figure')
+    get_GoogleMap(get_the_dataframe('2014/15'))
+    get_GoogleMap(get_the_dataframe('2000/01'))
