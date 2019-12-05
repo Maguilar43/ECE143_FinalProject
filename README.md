@@ -39,5 +39,7 @@ Running this file returns the best lot to park in for a specified Spot type and 
 - Seaborn
 - Numpy
 - Statsmodel
-- Scipy.
+- Scipy
+- Xlrd
+- Jupyter-gmaps.
 
