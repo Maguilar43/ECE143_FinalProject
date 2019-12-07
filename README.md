@@ -47,6 +47,10 @@ Remember to replace the API_KEY to your Google Maps' api key for this api key th
 
 Running this file will show a heatmap of total empty spaces in the University and also an information message will print in the console.
 
+#### plot_total_spaces.py
+- < python plot_total_spaces.py >
+Running this file, we can get a figure object. This file includes two functions. First one is extractData(), which can get the pandas Dataframe, file name and color paremeters. Second function is totalSpacesByNeighbor(), which can get a plot point given the input data, filename, and color paremeters.
+
 ## Third-Party Modules
 - Pandas
 - Matplotlib
